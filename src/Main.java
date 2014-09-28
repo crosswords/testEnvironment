@@ -1,4 +1,4 @@
-package testEnvironment.testEnvironment;
+package testEnvironment;
 
 public class Main {
 
