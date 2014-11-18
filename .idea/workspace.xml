@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9797193-059b-4b4d-a3ed-24defd58f4df" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/GUI/Controller.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/GUI/CrosswordWindow.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/GUI/MainWindow.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-    </list>
+    <list default="true" id="c9797193-059b-4b4d-a3ed-24defd58f4df" name="Default" comment="" />
     <ignored path="testEnvironment.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -54,7 +49,7 @@
       <file leaf-file-name="Controller.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GUI/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5707071" vertical-offset="947" max-vertical-offset="1581">
+            <state vertical-scroll-proportion="0.3131313" vertical-offset="1049" max-vertical-offset="1581">
               <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -629,7 +624,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GUI/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5707071" vertical-offset="947" max-vertical-offset="1581">
+        <state vertical-scroll-proportion="0.3131313" vertical-offset="1049" max-vertical-offset="1581">
           <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
