@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+  <children>
+    <AnchorPane fx:id="mainPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="583.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Label layoutX="42.0" layoutY="14.0" prefHeight="39.0" prefWidth="210.0" text="Crosswords generator test platform" textAlignment="CENTER" />
+            <Button fx:id="runButton" layoutX="410.0" layoutY="245.0" mnemonicParsing="false" text="Run" />
+            <Button fx:id="stopButton" layoutX="408.0" layoutY="309.0" mnemonicParsing="false" text="Stop" />
+            <Button fx:id="showCrosswordButton" layoutX="700.0" layoutY="435.0" mnemonicParsing="false" text="Show" />
+            <ProgressBar layoutX="546.0" layoutY="57.0" prefHeight="18.0" prefWidth="332.0" progress="0.0" />
+            <TableView fx:id="librariesList" layoutX="32.0" layoutY="100.0" prefHeight="314.0" prefWidth="332.0">
+              <columns>
+                <TableColumn prefWidth="147.0" text="Name" />
+                <TableColumn prefWidth="47.0" text="version" />
+                  <TableColumn prefWidth="137.0" text="directory" />
+              </columns>
+            </TableView>
+            <Label layoutX="154.0" layoutY="430.0" text="Parameters" />
+            <TextField fx:id="heightParamField" layoutX="42.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
+            <TextField fx:id="widthParamField" layoutX="140.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
+            <Label layoutX="54.0" layoutY="460.0" text="Height" />
+            <Label layoutX="154.0" layoutY="460.0" text="Width" />
+            <Button fx:id="chooseLibraryButton" layoutX="32.0" layoutY="53.0" mnemonicParsing="false" text="Choose library" />
+            <Button fx:id="libraryAddButton" layoutX="392.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Add" />
+            <Button fx:id="libraryDeleteButton" layoutX="392.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Delete" />
+            <TextField fx:id="libraryTextField" layoutX="140.0" layoutY="55.0" prefHeight="25.0" prefWidth="228.0" />
+            <TableView fx:id="resultsTable" layoutX="494.0" layoutY="100.0" prefHeight="314.0" prefWidth="456.0">
+               <columns>
+                  <TableColumn prefWidth="175.0" text="Name" />
+                  <TableColumn minWidth="8.0" prefWidth="49.0" text="version" />
+                  <TableColumn prefWidth="53.0" text="height" />
+                  <TableColumn prefWidth="49.0" text="width" />
+                  <TableColumn prefWidth="68.0" text="status" />
+                  <TableColumn prefWidth="61.0" text="score" />
+               </columns>
+            </TableView>
+            <Label layoutX="352.0" layoutY="461.0" text="Empty spaces" />
+            <Label fx:id="wordsMetricLabel" layoutX="449.0" layoutY="461.0" text="Words count" />
+            <TextField fx:id="spacesMetricField" layoutX="339.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
+            <TextField fx:id="wordsMetricField" layoutX="447.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
+            <Label layoutX="390.0" layoutY="439.0" text="Metrics" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
