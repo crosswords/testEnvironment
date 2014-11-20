@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainController">
   <children>
     <AnchorPane fx:id="mainPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="583.0" prefWidth="840.0" VBox.vgrow="ALWAYS">
       <children>
@@ -15,14 +15,13 @@
             <Button fx:id="runButton" layoutX="410.0" layoutY="245.0" mnemonicParsing="false" text="Run" />
             <Button fx:id="stopButton" layoutX="408.0" layoutY="309.0" mnemonicParsing="false" text="Stop" />
             <Button fx:id="showCrosswordButton" layoutX="700.0" layoutY="435.0" mnemonicParsing="false" text="Show" />
-            <ProgressBar layoutX="546.0" layoutY="57.0" prefHeight="18.0" prefWidth="332.0" progress="0.0" />
+            <ProgressBar id="progressBar" layoutX="546.0" layoutY="57.0" prefHeight="18.0" prefWidth="332.0" progress="0.0" />
             <TableView fx:id="librariesList" layoutX="32.0" layoutY="100.0" prefHeight="314.0" prefWidth="332.0">
-              <columns>
-                <TableColumn prefWidth="147.0" text="Name" />
-                <TableColumn prefWidth="47.0" text="version" />
-                  <TableColumn prefWidth="137.0" text="directory" />
-              </columns>
-            </TableView>
+               <columns>
+                  <TableColumn prefWidth="115.0" text="Name" />
+                  <TableColumn minWidth="8.0" prefWidth="61.0" text="version" />
+                  <TableColumn prefWidth="155.0" text="directory" />
+               </columns></TableView>
             <Label layoutX="154.0" layoutY="430.0" text="Parameters" />
             <TextField fx:id="heightParamField" layoutX="42.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
             <TextField fx:id="widthParamField" layoutX="140.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
@@ -43,7 +42,7 @@
                </columns>
             </TableView>
             <Label layoutX="352.0" layoutY="461.0" text="Empty spaces" />
-            <Label fx:id="wordsMetricLabel" layoutX="449.0" layoutY="461.0" text="Words count" />
+            <Label layoutX="449.0" layoutY="461.0" text="Words count" />
             <TextField fx:id="spacesMetricField" layoutX="339.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
             <TextField fx:id="wordsMetricField" layoutX="447.0" layoutY="494.0" prefHeight="25.0" prefWidth="60.0" />
             <Label layoutX="390.0" layoutY="439.0" text="Metrics" />
