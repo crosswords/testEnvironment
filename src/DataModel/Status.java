@@ -1,3 +1,3 @@
 package DataModel;
 
-public enum Status {Running, Done, Not_started, Failed, Stopped}
+public enum Status {Running, Finished, Not_started, Failed, Stopped}

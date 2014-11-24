@@ -9,12 +9,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -50,11 +55,11 @@ public class MainController implements Initializable {
     private CrosswordWindow crosswordWindow;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<TableColumn> librariesColumns = librariesList.getColumns();
+    public void initialize(URL url, final ResourceBundle resourceBundle) {
+        final ObservableList<TableColumn> librariesColumns = librariesList.getColumns();
         librariesColumns.get(0).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("name"));
-        librariesColumns.get(2).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("filePath"));
-        librariesColumns.get(1).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("version"));
+        librariesColumns.get(1).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("filePath"));
+        librariesColumns.get(2).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("version"));
         librariesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         librariesList.setItems(librariesRows);
 
@@ -72,19 +77,24 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int index = resultsTable.getSelectionModel().getSelectedIndex();
+                String resourceFile = "";
+                Stage childStage = new Stage();
                 if (index >= 0) {
-                    Parent childRoot = null;
-                    try {
-                        childRoot = FXMLLoader.load(getClass().getResource("CrosswordWindow.fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // TODO - podpięcie pod tabelę wygenerowanej krzyżówki
-                    Stage childStage = new Stage();
+                    resourceFile = "CrosswordWindow.fxml";
                     childStage.setTitle("Generated crossword");
-                    childStage.setScene(new Scene(childRoot));
-                    childStage.showAndWait();
+                }else{
+                    resourceFile = "MessageBoxWindow.fxml";
+                    childStage.setTitle("Warning");
                 }
+                Parent childRoot = null;
+                try {
+                    childRoot = FXMLLoader.load(getClass().getResource(resourceFile));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // TODO - podpięcie pod tabelę wygenerowanej krzyżówki
+                childStage.setScene(new Scene(childRoot));
+                childStage.showAndWait();
             }
         });
 
@@ -116,9 +126,10 @@ public class MainController implements Initializable {
         libraryDeleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                ObservableList<Integer> indexes = librariesList.getSelectionModel().getSelectedIndices();
-                for (Integer index : indexes) {
-                    librariesRows.remove(index);
+                ObservableList<TestLibrary> selectedLibraries = librariesList.getSelectionModel().getSelectedItems();
+                for (TestLibrary library : selectedLibraries) {
+                    librariesRows.remove(library);
+                    librariesList.setItems(librariesRows);
                 }
             }
         });
@@ -132,8 +143,8 @@ public class MainController implements Initializable {
                         String version = "1.0";
                         TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), version, librariesRows.get(index).getFilePath(), Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
                         runningLibraries.add(testLibrary);
-                        double spacesMetric = Double.parseDouble(spacesMetricField.getText());
-                        double wordsMetric = Double.parseDouble(wordsMetricField.getText());
+                        double spacesMetric = spacesMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(spacesMetricField.getText());
+                        double wordsMetric = wordsMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(wordsMetricField.getText());
                         // TODO - dodać wywołanie algorytmu z biblioteki
                     }
                 }
@@ -143,11 +154,10 @@ public class MainController implements Initializable {
         stopButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                int index = resultsTable.getSelectionModel().getSelectedIndex();
-                if (index >= 0){
-                    runningLibraries.get(index).setStatus(Status.Stopped);
+                TestLibrary library = (TestLibrary) resultsTable.getSelectionModel().getSelectedItem();
+                if (library != null){
+                    library.setStatus(Status.Stopped);
                     // TODO - Logika - zatrzymanie wykonywania algorytmu
-                    resultsTable.setItems(runningLibraries);
                 }
             }
         });
