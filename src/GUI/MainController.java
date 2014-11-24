@@ -82,8 +82,9 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int index = resultsTable.getSelectionModel().getSelectedIndex();
+                TestLibrary testLibrary = runningLibraries.get(index);
                 String resourceFile = "";
-                Stage childStage = new Stage();
+                Stage childStage = new Stage();/*
                 if (index >= 0) {
                     resourceFile = "CrosswordWindow.fxml";
                     childStage.setTitle("Generated crossword");
@@ -119,7 +120,7 @@ public class MainController implements Initializable {
                         row1.setVgrow(Priority.SOMETIMES);
                         gridpane.getRowConstraints().add(row1);
                     }
-                    char[][] matrix = runningLibraries.get(index).getWords();
+                    char[][] matrix = testLibrary.getWords();
                     int fontSize = (int)min(gridpane.getPrefHeight()/testLibrary.getWidth(), gridpane.getPrefHeight() / testLibrary.getHeight());
                     if(matrix!=null)
                         for(int i=0;i<testLibrary.getWidth();++i)
@@ -179,7 +180,7 @@ public class MainController implements Initializable {
                     ObservableList<Integer> indexes = librariesList.getSelectionModel().getSelectedIndices();
                     for (Integer index : indexes) {
                         String version = "1.0";
-                        testLibrary = new TestLibrary(librariesRows.get(index).getName(), librariesRows.get(index).getVersion(),version, Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
+                        TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), librariesRows.get(index).getVersion(),version, Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
                         runningLibraries.add(testLibrary);
                         double spacesMetric = spacesMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(spacesMetricField.getText());
                         double wordsMetric = wordsMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(wordsMetricField.getText());
