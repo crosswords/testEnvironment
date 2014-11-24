@@ -8,6 +8,7 @@ public class TestLibrary {
     private int width;
     private int height;
     private Status status;
+    private char[][] words;
 
     public int getScore() {
         return score;
@@ -15,6 +16,14 @@ public class TestLibrary {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public char[][] getWords() {
+        return words;
+    }
+
+    public void setWords(char[][] words) {
+        this.words = words;
     }
 
     public int getWidth() {

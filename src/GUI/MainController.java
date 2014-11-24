@@ -9,19 +9,25 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import testEnvironment.testEnvironment;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static java.lang.Math.min;
 
 /**
  * Created by Filipolo on 2014-11-15.
@@ -48,7 +54,8 @@ public class MainController implements Initializable {
     ObservableList<TestLibrary> runningLibraries = FXCollections.observableArrayList();
     File selectedLibrary;
     private CrosswordWindow crosswordWindow;
-
+    private char[][] matrix;
+    private TestLibrary testLibrary;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<TableColumn> librariesColumns = librariesList.getColumns();
@@ -73,16 +80,49 @@ public class MainController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 int index = resultsTable.getSelectionModel().getSelectedIndex();
                 if (index >= 0) {
-                    Parent childRoot = null;
+                    /*Parent childRoot = null;
                     try {
                         childRoot = FXMLLoader.load(getClass().getResource("CrosswordWindow.fxml"));
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    }*/
+
                     // TODO - podpięcie pod tabelę wygenerowanej krzyżówki
+                    GridPane gridpane = new GridPane();
+                    gridpane.setPrefHeight(640.0);
+                    gridpane.setPrefWidth(640.0);
+                    gridpane.setAlignment(Pos.CENTER);
+                    gridpane.setStyle("-fx-background-color: red; -fx-grid-lines-visible: true;");
+
+                    for(int i=0;i<testLibrary.getWidth();++i) {
+                        ColumnConstraints column1 = new ColumnConstraints();
+                        column1.setMinWidth(10.0);
+                        column1.setPrefWidth(100.0);
+                        column1.setHgrow(Priority.SOMETIMES );
+                        gridpane.getColumnConstraints().add(column1);
+                    }
+                    for(int i=0;i<testLibrary.getHeight();++i) {
+                        RowConstraints row1 = new RowConstraints();
+                        row1.setMinHeight(10.0);
+                        row1.setPrefHeight(30.0);
+                        row1.setVgrow(Priority.SOMETIMES);
+                        gridpane.getRowConstraints().add(row1);
+                    }
+                    char[][] matrix = runningLibraries.get(index).getWords();
+                    int fontSize = (int)min(gridpane.getPrefHeight()/testLibrary.getWidth(), gridpane.getPrefHeight() / testLibrary.getHeight());
+                    if(matrix!=null)
+                        for(int i=0;i<testLibrary.getWidth();++i)
+                            for(int j=0;j<testLibrary.getHeight();++j) {
+                                Label label = new Label(Character.toString(matrix[i][j]));
+                                label.setFont(new Font("Courier", fontSize));
+                                gridpane.add(label, i, j);
+                                gridpane.setHalignment(label, HPos.CENTER);
+                                label.setAlignment(Pos.CENTER);
+                            }
+                    //
                     Stage childStage = new Stage();
                     childStage.setTitle("Generated crossword");
-                    childStage.setScene(new Scene(childRoot));
+                    childStage.setScene(new Scene(gridpane));
                     childStage.showAndWait();
                 }
             }
@@ -130,11 +170,14 @@ public class MainController implements Initializable {
                     ObservableList<Integer> indexes = librariesList.getSelectionModel().getSelectedIndices();
                     for (Integer index : indexes) {
                         String version = "1.0";
-                        TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), version, librariesRows.get(index).getFilePath(), Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
+                        testLibrary = new TestLibrary(librariesRows.get(index).getName(), librariesRows.get(index).getVersion(),version, Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
                         runningLibraries.add(testLibrary);
-                        double spacesMetric = Double.parseDouble(spacesMetricField.getText());
-                        double wordsMetric = Double.parseDouble(wordsMetricField.getText());
+                        //double spacesMetric = Double.parseDouble(spacesMetricField.getText());
+                        //double wordsMetric = Double.parseDouble(wordsMetricField.getText());
                         // TODO - dodać wywołanie algorytmu z biblioteki
+                        testEnvironment tester= new testEnvironment(testLibrary);
+                        tester.testLibrary();
+                        //
                     }
                 }
             }
@@ -147,6 +190,8 @@ public class MainController implements Initializable {
                 if (index >= 0){
                     runningLibraries.get(index).setStatus(Status.Stopped);
                     // TODO - Logika - zatrzymanie wykonywania algorytmu
+
+                    //
                     resultsTable.setItems(runningLibraries);
                 }
             }
