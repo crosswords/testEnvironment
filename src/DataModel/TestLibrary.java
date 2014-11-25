@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 public class TestLibrary {
     private StringProperty name;
     private StringProperty version;
-    private IntegerProperty score;
+    private StringProperty score;
     private IntegerProperty width;
     private IntegerProperty height;
     private StringProperty status;
@@ -18,7 +18,7 @@ public class TestLibrary {
     public TestLibrary(String nname, String vversion, String ffilePath){
         this.name = new SimpleStringProperty(nname);
         this.version = new SimpleStringProperty(vversion);
-        this.score = new SimpleIntegerProperty(0);
+        this.score = new SimpleStringProperty("");
         this.width = new SimpleIntegerProperty(0);
         this.height = new SimpleIntegerProperty(0);
         this.status = new SimpleStringProperty("Not_started");
@@ -29,7 +29,7 @@ public class TestLibrary {
         this.name = new SimpleStringProperty(nname);
         this.directory = new SimpleStringProperty(ffilePath);
         this.version = new SimpleStringProperty(vversion);
-        this.score = new SimpleIntegerProperty(0);
+        this.score = new SimpleStringProperty("");
         this.width = new SimpleIntegerProperty(wwidth);
         this.height = new SimpleIntegerProperty(hheight);
         this.status = new SimpleStringProperty("Not_started");
@@ -80,15 +80,15 @@ public class TestLibrary {
         return version;
     }
 
-    public Integer getScore() {
+    public String getScore() {
         return score.get();
     }
 
-    public void setScore(Integer score) {
+    public void setScore(String score) {
         this.score.set(score);
     }
 
-    public IntegerProperty scoreProperty(){
+    public StringProperty scoreProperty(){
         return score;
     }
 
@@ -131,4 +131,5 @@ public class TestLibrary {
     public void setWords(char[][] words) {
         this.words = words;
     }
+
 }

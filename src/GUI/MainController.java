@@ -1,4 +1,5 @@
 package GUI;
+import DataModel.Status;
 import DataModel.TestLibrary;
 
 import javafx.collections.FXCollections;
@@ -179,11 +180,12 @@ public class MainController implements Initializable {
                     ObservableList<Integer> indexes = librariesList.getSelectionModel().getSelectedIndices();
                     for (Integer index : indexes) {
                         String version = "1.0";
-                        TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), version, librariesRows.get(index).getDirectory(), Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
+                        TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), librariesRows.get(index).getDirectory(), version, Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
                         runningLibraries.add(testLibrary);
                         double spacesMetric = spacesMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(spacesMetricField.getText());
                         double wordsMetric = wordsMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(wordsMetricField.getText());
                         // TODO - dodać wywołanie algorytmu z biblioteki
+                        testLibrary.setStatus("Running");
                         testEnvironment tester= new testEnvironment(testLibrary);
                         tester.testLibrary();
                         //
