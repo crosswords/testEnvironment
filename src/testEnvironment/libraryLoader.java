@@ -18,7 +18,7 @@ public class libraryLoader {
         URL url = null;
         classToLoad = null;
         try {
-            url = new URL(libPath);
+            url = new URL("file:"+libPath);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -36,27 +36,22 @@ public class libraryLoader {
 
     }
 
-    public void invokeMethod(String methodName) {
+    public Object invokeMethod(String methodName,String[] args) {
         Method method = null;
+        Object result = null;
         try {
-            method = classToLoad.getDeclaredMethod (methodName);
+            Object instance = classToLoad.newInstance();
+            method = classToLoad.getMethod(methodName, new Class[] { args.getClass() });
+            result = method.invoke (instance, new Object[] { args });
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        Object instance = null;
-        try {
-            instance = classToLoad.newInstance ();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        try {
-            Object result = method.invoke (instance);
-        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         }
+        return result;
     }
 }

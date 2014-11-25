@@ -8,24 +8,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
+
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBoxBuilder;
-import javafx.scene.text.Text;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import testEnvironment.testEnvironment;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static java.lang.Math.min;
 
 /**
  * Created by Filipolo on 2014-11-15.
@@ -84,25 +84,56 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 int index = resultsTable.getSelectionModel().getSelectedIndex();
-                String resourceFile = "";
+                TestLibrary testLibrary = runningLibraries.get(index);
                 Stage childStage = new Stage();
                 if (index >= 0) {
-                    resourceFile = "CrosswordWindow.fxml";
-                    childStage.setTitle("Generated crossword");
-                }else{
-                    resourceFile = "MessageBoxWindow.fxml";
+                    // TODO - podpięcie pod tabelę wygenerowanej krzyżówki
+                    GridPane gridpane = new GridPane();
+                    gridpane.setPrefHeight(640.0);
+                    gridpane.setPrefWidth(640.0);
+                    gridpane.setAlignment(Pos.CENTER);
+                    gridpane.setStyle("-fx-background-color: red; -fx-grid-lines-visible: true;");
+
+                    for (int i = 0; i < testLibrary.getWidth(); ++i) {
+                        ColumnConstraints column1 = new ColumnConstraints();
+                        column1.setMinWidth(10.0);
+                        column1.setPrefWidth(100.0);
+                        column1.setHgrow(Priority.SOMETIMES);
+                        gridpane.getColumnConstraints().add(column1);
+                    }
+                    for (int i = 0; i < testLibrary.getHeight(); ++i) {
+                        RowConstraints row1 = new RowConstraints();
+                        row1.setMinHeight(10.0);
+                        row1.setPrefHeight(30.0);
+                        row1.setVgrow(Priority.SOMETIMES);
+                        gridpane.getRowConstraints().add(row1);
+                    }
+                    char[][] matrix = testLibrary.getWords();
+                    int fontSize = (int) min(gridpane.getPrefHeight() / testLibrary.getWidth(), gridpane.getPrefHeight() / testLibrary.getHeight());
+                    if (matrix != null)
+                        for (int i = 0; i < testLibrary.getWidth(); ++i)
+                            for (int j = 0; j < testLibrary.getHeight(); ++j) {
+                                Label label = new Label(Character.toString(matrix[i][j]));
+                                label.setFont(new Font("Courier", fontSize));
+                                gridpane.add(label, i, j);
+                                gridpane.setHalignment(label, HPos.CENTER);
+                                label.setAlignment(Pos.CENTER);
+                            }
+                    //
+                    childStage.setScene(new Scene(gridpane));
+                    childStage.showAndWait();
+                } else{
                     childStage.setTitle("Warning");
+                    Parent childRoot = null;
+                    try {
+                        childRoot = FXMLLoader.load(getClass().getResource("MessageBoxWindow.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    childStage.setScene(new Scene(childRoot));
+                    childStage.showAndWait();
                 }
-                Parent childRoot = null;
-                try {
-                    childRoot = FXMLLoader.load(getClass().getResource(resourceFile));
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-                // TODO - podpięcie pod tabelę wygenerowanej krzyżówki
-                childStage.setScene(new Scene(childRoot));
-                childStage.showAndWait();
-            }
         });
 
         chooseLibraryButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -153,6 +184,9 @@ public class MainController implements Initializable {
                         double spacesMetric = spacesMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(spacesMetricField.getText());
                         double wordsMetric = wordsMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(wordsMetricField.getText());
                         // TODO - dodać wywołanie algorytmu z biblioteki
+                        testEnvironment tester= new testEnvironment(testLibrary);
+                        tester.testLibrary();
+                        //
                     }
                 } else{
                     Stage childStage = new Stage();

@@ -13,6 +13,7 @@ public class TestLibrary {
     private IntegerProperty height;
     private StringProperty status;
     private StringProperty directory;
+    private char[][] words;
 
     public TestLibrary(String nname, String vversion, String ffilePath){
         this.name = new SimpleStringProperty(nname);
@@ -35,8 +36,12 @@ public class TestLibrary {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return (this.getName() + ", " + this.getVersion() + ", " + this.getDirectory());
+    }
+
+    public char[][] getWords() {
+        return words;
     }
 
     public String getStatus() {
@@ -121,5 +126,9 @@ public class TestLibrary {
 
     public StringProperty directoryProperty() {
         return directory;
+    }
+
+    public void setWords(char[][] words) {
+        this.words = words;
     }
 }
