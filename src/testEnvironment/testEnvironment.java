@@ -18,11 +18,17 @@ public class testEnvironment {
     }
 
     public void testLibrary(){
-        libraryLoader library = new libraryLoader(testLibrary.getFilePath());
-        library.loadLibrary(className);
-        String[] args = new String[]{Integer.toString(testLibrary.getWidth()),Integer.toString(testLibrary.getHeight())};
-        Object returnValue = library.invokeMethod(methodName,args);
-        testLibrary.setWords((char[][])returnValue);
+
+        new Thread(new Runnable() {
+            public void run() {
+                libraryLoader library = new libraryLoader(testLibrary.getFilePath());
+                library.loadLibrary(className);
+                String[] args = new String[]{Integer.toString(testLibrary.getWidth()),Integer.toString(testLibrary.getHeight())};
+                Object returnValue = library.invokeMethod(methodName,args);
+                testLibrary.setWords((char[][])returnValue);
+            }
+        }).start();
+
         //async -> loader.library.generateCrossword(....);
         //
     }
