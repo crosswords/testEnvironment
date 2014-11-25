@@ -1,5 +1,4 @@
 package GUI;
-import DataModel.Status;
 import DataModel.TestLibrary;
 
 import javafx.collections.FXCollections;
@@ -42,12 +41,22 @@ public class MainController implements Initializable {
     @FXML private Button stopButton;
     @FXML private TableView librariesList;
     @FXML private TextField libraryTextField;
-    @FXML private TableView resultsTable;
+    @FXML private TableView<TestLibrary> resultsTable;
     @FXML private TextField heightParamField;
     @FXML private TextField widthParamField;
     @FXML private TextField spacesMetricField;
     @FXML private TextField wordsMetricField;
     @FXML private ProgressBar progressBar;
+
+    @FXML private TableColumn<TestLibrary, String> nameColumn;
+    @FXML private TableColumn<TestLibrary, String> versionColumn;
+    @FXML private TableColumn<TestLibrary, String> directoryColumn;
+    @FXML private TableColumn<TestLibrary, Integer> widthColumn;
+    @FXML private TableColumn<TestLibrary, Integer> heightColumn;
+    @FXML private TableColumn<TestLibrary, Integer> scoreColumn;
+    @FXML private TableColumn<TestLibrary, String> statusColumn;
+    @FXML private TableColumn<TestLibrary, String> resultNameColumn;
+    @FXML private TableColumn<TestLibrary, String> resultVersionColumn;
 
     ObservableList<TestLibrary> librariesRows = FXCollections.observableArrayList();
     ObservableList<TestLibrary> runningLibraries = FXCollections.observableArrayList();
@@ -56,20 +65,18 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, final ResourceBundle resourceBundle) {
-        final ObservableList<TableColumn> librariesColumns = librariesList.getColumns();
-        librariesColumns.get(0).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("name"));
-        librariesColumns.get(1).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("filePath"));
-        librariesColumns.get(2).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("version"));
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        versionColumn.setCellValueFactory(cellData -> cellData.getValue().versionProperty());
+        directoryColumn.setCellValueFactory(cellData -> cellData.getValue().directoryProperty());
         librariesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         librariesList.setItems(librariesRows);
 
-        ObservableList<TableColumn> resultsColumns = resultsTable.getColumns();
-        resultsColumns.get(0).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("name"));
-        resultsColumns.get(2).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("height"));
-        resultsColumns.get(1).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("version"));
-        resultsColumns.get(3).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("width"));
-        resultsColumns.get(4).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("status"));
-        resultsColumns.get(5).setCellValueFactory(new PropertyValueFactory<TestLibrary, String>("score"));
+        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+        resultNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        resultVersionColumn.setCellValueFactory(cellData -> cellData.getValue().versionProperty());
+        heightColumn.setCellValueFactory(new PropertyValueFactory<TestLibrary, Integer>("height"));
+        widthColumn.setCellValueFactory(new PropertyValueFactory<TestLibrary, Integer>("width"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<TestLibrary, Integer>("score"));
         resultsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         resultsTable.setItems(runningLibraries);
 
@@ -141,12 +148,23 @@ public class MainController implements Initializable {
                     ObservableList<Integer> indexes = librariesList.getSelectionModel().getSelectedIndices();
                     for (Integer index : indexes) {
                         String version = "1.0";
-                        TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), version, librariesRows.get(index).getFilePath(), Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
+                        TestLibrary testLibrary = new TestLibrary(librariesRows.get(index).getName(), version, librariesRows.get(index).getDirectory(), Integer.parseInt(widthParamField.getText()), Integer.parseInt(heightParamField.getText()));
                         runningLibraries.add(testLibrary);
                         double spacesMetric = spacesMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(spacesMetricField.getText());
                         double wordsMetric = wordsMetricField.getText().isEmpty() ? 0.0 : Double.parseDouble(wordsMetricField.getText());
                         // TODO - dodać wywołanie algorytmu z biblioteki
                     }
+                } else{
+                    Stage childStage = new Stage();
+                    childStage.setTitle("Warning");
+                    Parent childRoot = null;
+                    try {
+                        childRoot = FXMLLoader.load(getClass().getResource("MessageBoxWindow.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    childStage.setScene(new Scene(childRoot));
+                    childStage.showAndWait();
                 }
             }
         });
@@ -156,8 +174,19 @@ public class MainController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 TestLibrary library = (TestLibrary) resultsTable.getSelectionModel().getSelectedItem();
                 if (library != null){
-                    library.setStatus(Status.Stopped);
+                    library.setStatus("Stopped");
                     // TODO - Logika - zatrzymanie wykonywania algorytmu
+                } else{
+                    Stage childStage = new Stage();
+                    childStage.setTitle("Warning");
+                    Parent childRoot = null;
+                    try {
+                        childRoot = FXMLLoader.load(getClass().getResource("MessageBoxWindow.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    childStage.setScene(new Scene(childRoot));
+                    childStage.showAndWait();
                 }
             }
         });

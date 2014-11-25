@@ -18,9 +18,9 @@
             <ProgressBar id="progressBar" layoutX="546.0" layoutY="57.0" prefHeight="18.0" prefWidth="332.0" progress="0.0" />
             <TableView fx:id="librariesList" layoutX="34.0" layoutY="131.0" prefHeight="314.0" prefWidth="332.0">
                <columns>
-                  <TableColumn prefWidth="115.0" text="Name" />
-                  <TableColumn minWidth="8.0" prefWidth="61.0" text="version" />
-                  <TableColumn prefWidth="155.0" text="directory" />
+                  <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Name" />
+                  <TableColumn fx:id="versionColumn" minWidth="8.0" prefWidth="61.0" text="version" />
+                  <TableColumn fx:id="directoryColumn" prefWidth="155.0" text="directory" />
                </columns></TableView>
             <Label layoutX="147.0" layoutY="461.0" text="Parameters" />
             <TextField fx:id="heightParamField" layoutX="42.0" layoutY="507.0" prefHeight="25.0" prefWidth="60.0" />
@@ -33,12 +33,12 @@
             <TextField fx:id="libraryTextField" layoutX="140.0" layoutY="55.0" prefHeight="25.0" prefWidth="228.0" />
             <TableView fx:id="resultsTable" layoutX="495.0" layoutY="131.0" prefHeight="314.0" prefWidth="456.0">
                <columns>
-                  <TableColumn prefWidth="175.0" text="Name" />
-                  <TableColumn minWidth="8.0" prefWidth="49.0" text="version" />
-                  <TableColumn prefWidth="53.0" text="height" />
-                  <TableColumn prefWidth="49.0" text="width" />
-                  <TableColumn prefWidth="68.0" text="status" />
-                  <TableColumn prefWidth="61.0" text="score" />
+                  <TableColumn fx:id="resultNameColumn" prefWidth="175.0" text="Name" />
+                  <TableColumn fx:id="resultVersionColumn" minWidth="8.0" prefWidth="49.0" text="version" />
+                  <TableColumn fx:id="heightColumn" prefWidth="53.0" text="height" />
+                  <TableColumn fx:id="widthColumn" prefWidth="49.0" text="width" />
+                  <TableColumn fx:id="statusColumn" prefWidth="68.0" text="status" />
+                  <TableColumn fx:id="scoreColumn" prefWidth="61.0" text="score" />
                </columns>
             </TableView>
             <Label layoutX="338.0" layoutY="486.0" text="Empty spaces" />
